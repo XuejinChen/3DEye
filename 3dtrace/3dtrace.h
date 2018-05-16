@@ -15,11 +15,11 @@
 #define START_COL 70
 #define END_COL 640
 #define MAXN 5000
-#define LENGTH 10
-#define BEGIN 50
-#define END 230
-#define MAX_LENGTH 350
-#define BLUR Size(13, 13)
+
+#define BEGIN 50 //代表轮廓前端的检测范围
+#define END 230 //代表轮廓后端的检测范围
+#define MAX_LENGTH 350 //代表轮廓长度的上限
+#define BLUR Size(13, 13) //均值滤波的参数，两个整数最好保持一致，如果轮廓查找有问题可以将此参数适当地向上调整
 
 using namespace std;
 using namespace cv;
