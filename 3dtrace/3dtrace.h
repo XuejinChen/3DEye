@@ -8,7 +8,7 @@
 #include <cmath>
 
 /*
-ËùÓĞÑÛÇòB³¬Í¼Æ¬µÄ´óĞ¡¾ùÎª720*576£¬°Ñ²éÕÒÇøÓòÏŞ¶¨ÔÚÒÔÏÂµÄ·¶Î§ÄÚ
+æ‰€æœ‰çœ¼çƒBè¶…å›¾ç‰‡çš„å¤§å°å‡ä¸º720*576ï¼ŒæŠŠæŸ¥æ‰¾åŒºåŸŸé™å®šåœ¨ä»¥ä¸‹çš„èŒƒå›´å†…
 */
 #define START_ROW 70
 #define END_ROW 510
@@ -17,8 +17,9 @@
 #define MAXN 5000
 #define LENGTH 10
 #define BEGIN 50
-#define END 220
-#define BLUR Size(11, 11)
+#define END 230
+#define MAX_LENGTH 350
+#define BLUR Size(13, 13)
 
 using namespace std;
 using namespace cv;
@@ -28,8 +29,8 @@ bool contour(Mat binaryImg, vector<vector<cv::Point> > &contours);
 bool _3dtrace(string filename, vector<cv::Point3f> &trace);
 
 /*
-ÕâÀïÓĞÈı¸öº¯Êı£¬Êµ¼ÊÊ¹ÓÃÊ±Ö»ĞèÒªµ÷ÓÃ_3dtraceº¯Êı¼´¿É£¬ÆäÖĞ²ÎÊı&trace¼´ÈıÎ¬µÄÂÖÀª×ø±ê
-Ä¿Ç°Ö»ÊµÏÖÁË¶şÎ¬×ø±êµÄ²éÕÒ£¬trace[i].zÒÑÈ«²¿ÉèÎª0
+è¿™é‡Œæœ‰ä¸‰ä¸ªå‡½æ•°ï¼Œå®é™…ä½¿ç”¨æ—¶åªéœ€è¦è°ƒç”¨_3dtraceå‡½æ•°å³å¯ï¼Œå…¶ä¸­å‚æ•°&traceå³ä¸‰ç»´çš„è½®å»“åæ ‡
+ç›®å‰åªå®ç°äº†äºŒç»´åæ ‡çš„æŸ¥æ‰¾ï¼Œtrace[i].zå·²å…¨éƒ¨è®¾ä¸º0
 
-Ê¹ÓÃÇ°ÒªÈ·ÈÏÒÑ°üº¬opencv¿â
+ä½¿ç”¨å‰è¦ç¡®è®¤å·²åŒ…å«opencvåº“
 */
