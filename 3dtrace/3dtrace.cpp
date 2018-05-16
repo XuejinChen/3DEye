@@ -340,11 +340,11 @@ bool _3dtrace(string filename, vector<cv::Point3f> &trace)
 	dist.resize(max);
 	for (int i = 0; i < max; i++)
 	{
-		dist[i] = _dist(contours[tt][(i + 1) % max] - contours[tt][i], contours[tt][(i - 1 + max) % max] - contours[tt][i]);
+		dist[i] = _dist(contours[tt][(i - 1 + max) % max] - contours[tt][i], contours[tt][(i + 1) % max] - contours[tt][i]);
 	}
-	for (int i = 0; i < max; i++)
+	for (int i = 1; i < max; i++)
 	{
-		if (dist[i] >= 2 && len < MAX_LENGTH)
+		if (dist[i] >= 2 && len < MAX_LENGTH && contours[tt][i].x >= contours[tt][i-1].x)
 		{
 			if (flag)
 			{
@@ -392,11 +392,24 @@ bool _3dtrace(string filename, vector<cv::Point3f> &trace)
 	startm = start;
 	//处理末端不符合规则的线段
 	int i;
+	flag = false;
 	for (i = END; i < lenm; i++)
 	{
 		if (check2(contours[tt][i + startm - 1] - contours[tt][i + startm], contours[tt][i + startm + 1] - contours[tt][i + startm]))
 		{
 			break;
+		}
+		if (contours[tt][i + startm - 1].x == contours[tt][i + startm + 1].x)
+		{
+			if (flag)
+			{
+				break;
+			}
+			flag = true;
+		}
+		else
+		{
+			flag = false;
 		}
 	}
 	lenm = i - 1;
