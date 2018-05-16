@@ -1,6 +1,6 @@
 #include "3dtrace.h"
 
-//Á¬Í¨Óò±ê¼Çº¯Êı
+//è¿é€šåŸŸæ ‡è®°å‡½æ•°
 bool labeling(Mat grayImg, Mat &labelImg, int bin_th = 70)
 {
 	int i, j, k;
@@ -21,7 +21,7 @@ bool labeling(Mat grayImg, Mat &labelImg, int bin_th = 70)
 	labelImg.create(Size(col, row), CV_32SC1);
 	if (!(row == 576 && col == 720))
 	{
-		//Í¼Ïñ³ß´ç²»ÊÇ720*576µÄ»°£¬ÈÏ¶¨Îª·ÇÑÛÇòB³¬Í¼Æ¬
+		//å›¾åƒå°ºå¯¸ä¸æ˜¯720*576çš„è¯ï¼Œè®¤å®šä¸ºéçœ¼çƒBè¶…å›¾ç‰‡
 		return false;
 	}
 	for (i = START_ROW; i < END_ROW; i++)
@@ -121,7 +121,7 @@ bool labeling(Mat grayImg, Mat &labelImg, int bin_th = 70)
 	}
 	return true;
 }
-//ÀûÓÃÁ¬Í¨Óò²éÕÒ±ß½ç
+//åˆ©ç”¨è¿é€šåŸŸæŸ¥æ‰¾è¾¹ç•Œ
 bool contour(Mat binaryImg, vector<vector<cv::Point> > &contours)
 {
 	int i, j;
@@ -142,7 +142,7 @@ bool contour(Mat binaryImg, vector<vector<cv::Point> > &contours)
 	bool is[MAXN];
 	Point search[30] = { Point(0,1),Point(-1,1),Point(-1,0),Point(-1,-1),Point(0,-1),Point(1,-1),Point(1,0),Point(1,1),Point(0,1),Point(-1,1),Point(-1,0),Point(-1,-1),Point(0,-1),Point(1,-1),Point(1,0),Point(1,1), Point(0,1),Point(-1,1),Point(-1,0),Point(-1,-1),Point(0,-1),Point(1,-1),Point(1,0),Point(1,1) };
 	memset(is, false, MAXN);
-	//±ê¼Ç¸÷±êÇ©µÄÆğµã
+	//æ ‡è®°å„æ ‡ç­¾çš„èµ·ç‚¹
 	for (i = 0; i < row; i++)
 	{
 		ql = label.ptr<int>(i);
@@ -314,8 +314,8 @@ bool check2(Point x, Point y)
 	}
 	return false;
 }
-//´Ó±ß½çÖĞÌáÈ¡³öÑÛÇò±íÃæµÄÈıÎ¬×ø±ê
-//²ÎÊıfilename¼´ĞèÒª´¦ÀíµÄÎÄ¼şÃû£¨°üº¬ÍêÕûÂ·¾¶£©£¬trace¼´ÈıÎ¬Â·¾¶£¨z×ø±êÄ¬ÈÏÎª0£©
+//ä»è¾¹ç•Œä¸­æå–å‡ºçœ¼çƒè¡¨é¢çš„ä¸‰ç»´åæ ‡
+//å‚æ•°filenameå³éœ€è¦å¤„ç†çš„æ–‡ä»¶åï¼ˆåŒ…å«å®Œæ•´è·¯å¾„ï¼‰ï¼Œtraceå³ä¸‰ç»´è·¯å¾„ï¼ˆzåæ ‡é»˜è®¤ä¸º0ï¼‰
 bool _3dtrace(string filename, vector<cv::Point3f> &trace)
 {
 	Mat test = imread(filename, 0);
@@ -328,7 +328,7 @@ bool _3dtrace(string filename, vector<cv::Point3f> &trace)
 	vector<int> dist;
 	blur(test, test, BLUR);
 	contour(test, contours);
-	//ÕÒ³ö×î³¤µÄÒ»Ìõ±ß½ç£¬ÆäÖĞ±Ø¶¨°üº¬ÑÛÇòµÄÂÖÀª
+	//æ‰¾å‡ºæœ€é•¿çš„ä¸€æ¡è¾¹ç•Œï¼Œå…¶ä¸­å¿…å®šåŒ…å«çœ¼çƒçš„è½®å»“
 	for (int i = 1; i < contours.size(); i++)
 	{
 		if (max < contours[i].size())
@@ -344,7 +344,7 @@ bool _3dtrace(string filename, vector<cv::Point3f> &trace)
 	}
 	for (int i = 0; i < max; i++)
 	{
-		if (dist[i] >= 2 && len < 300)
+		if (dist[i] >= 2 && len < MAX_LENGTH)
 		{
 			if (flag)
 			{
@@ -373,7 +373,7 @@ bool _3dtrace(string filename, vector<cv::Point3f> &trace)
 			}
 		}
 	}
-	//´¦ÀíÊ¼¶Ë²»·ûºÏ¹æÔòµÄÏß¶Î
+	//å¤„ç†å§‹ç«¯ä¸ç¬¦åˆè§„åˆ™çš„çº¿æ®µ
 	flag = false;
 	start = startm;
 	for (int i = 0; i < BEGIN; i++)
@@ -390,7 +390,7 @@ bool _3dtrace(string filename, vector<cv::Point3f> &trace)
 	}
 	lenm -= (start - startm);
 	startm = start;
-	//´¦ÀíÄ©¶Ë²»·ûºÏ¹æÔòµÄÏß¶Î
+	//å¤„ç†æœ«ç«¯ä¸ç¬¦åˆè§„åˆ™çš„çº¿æ®µ
 	int i;
 	for (i = END; i < lenm; i++)
 	{
