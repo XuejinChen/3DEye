@@ -21,8 +21,8 @@
 那么对于曲线上任意一点P，其变换为
 
 <p><img src="https://latex.codecogs.com/svg.latex?P(x,y)\to&space;P'(x',y')" title="P(x,y)\to P'(x',y')" /></p>
-<p><img src="https://latex.codecogs.com/svg.latex?x'=\frac{(x-x_1)*(x_2-x_1)&plus;(y-y_1)*(y_2-y_1))}&space;{\sqrt{(x_2-x_1)^2&plus;(y_2-y_1)^2}}" title="x'=\frac{(x-x_1)*(x_2-x_1)+(y-y_1)*(y_2-y_1))} {\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}}" /></p>
-<p><img src="https://latex.codecogs.com/svg.latex?y'=\frac{(y-y_1)*(x_2-x_1)-(x-x_1)*(y_2-y_1))}&space;{\sqrt{(x_2-x_1)^2&plus;(y_2-y_1)^2}}" title="y'=\frac{(y-y_1)*(x_2-x_1)-(x-x_1)*(y_2-y_1))} {\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}}" /></p>
+<p><img src="https://latex.codecogs.com/svg.latex?x'=\frac{(x-x_1)*(x_2-x_1)&plus;(y-y_1)*(y_2-y_1)}&space;{\sqrt{(x_2-x_1)^2&plus;(y_2-y_1)^2}}" title="x'=\frac{(x-x_1)*(x_2-x_1)+(y-y_1)*(y_2-y_1))} {\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}}" /></p>
+<p><img src="https://latex.codecogs.com/svg.latex?y'=\frac{(y-y_1)*(x_2-x_1)-(x-x_1)*(y_2-y_1)}&space;{\sqrt{(x_2-x_1)^2&plus;(y_2-y_1)^2}}" title="y'=\frac{(y-y_1)*(x_2-x_1)-(x-x_1)*(y_2-y_1))} {\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}}" /></p>
 
 按照以上公式，得到下图
 
