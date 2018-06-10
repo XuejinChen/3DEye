@@ -1,4 +1,7 @@
 # 基于给定曲线的三维重建
+    2018.06.10
+    	1、增加了绘制流程图（暂定）
+	2、采样过程改写，增加多项式拟合
     2018.05.25
         1、addCurve()输入类型统一为vector<cv::Point3f>。
         2、删除rebuild_3Dpoint类，统一使用glm::vec3。
@@ -39,26 +42,41 @@ OpenGL中通过 **顶点缓冲数组**（Vertex Buffer Objects, VBO）一次性�
 由于目前尚未增加纹理贴图，所以暂时还没有导出网格文件。  
 ## 4、目前绘制的实现方式 ##
 绘制流程如下：
-```flow
+```flow 
 st=>start: 开始
-e=>end: 结束
-op1=>operation: 输入曲线
-op2=>operation: 等距采样
-op3=>operation: 生成索引及顶点数据
-op4=>operation: 渲染
+e=>end: 结束 
+io1=>inputoutput: 给定y方向采样数M和x方向采样数N
+io2=>inputoutput: 添加曲线addCurve() 
+op1=>operation: y方向等距采样
+op2=>operation: 对同y分量的顶点，进行多项式拟合
+op3=>operation: 对拟合曲线，在x方向等距采样
+op4=>operation: 构建网格
+op5=>operation: 渲染
+st->io1->io2->op1->op2->op3->op4->op5->e
 
-st->op1->op2->op3->op4->e
+``` 
+##待商榷： 
+* **y方向等距采样，如何选定起止点？**  
+  采样步长：所有曲线是否同起止点？如果不是，查找max(min(y))和min(max(y))作为起止点  
+  采样方向：输入的曲线，y方向是单调变化的。能否确定y的变化方向？  
+* **多项式拟合**
+  https://blog.csdn.net/guduruyu/article/details/72866144  
+  最小二乘法多项式拟合，使用opencv求解方程组  
+  方程阶数是否也要可调？  
+  阶数影响极值点的数目，如果曲线形状太扭曲，可能要提高阶数，带来采样问题  
+  对于一条曲线而言，x必须单一映射到z  
+* **拟合曲线的采样**
+  最理想的情况是按角度变化采样  
+  但涉及到高阶方程的求解，计算困难  
+  目前设想在x方向等距采样，对于不同纬度的切片，按球体计算横切圆的半径r，采样间隔2r/N,从+r采样到-r  
+  输入曲线的点只用作拟合曲线，而不用作绘制三维模型  
 
-```
-目前绘制的思路主要参考绘制球体的流程（曲线数=50，每条曲线采样100点）：
-![sphere](https://raw.githubusercontent.com/lsa1997/images/master/sphere.bmp)  
-![sphere_line](https://raw.githubusercontent.com/lsa1997/images/master/sphere_line.bmp)  
-在眼球彩超重建中，初步认为不同彩超图片类似于球体在纬度方向切片,绘制时类似于在经度方向绘制三角形带，三角形剖分时选择最临近的三个顶点组成三角形。  
-现在的问题在于，对于同一个眼球，彩超图片数目最多二十余张，最少仅四张，如果采用三角形网格，渲染出的模型如下所示（曲线数=7，每条曲线采样50点）：
-![rebuild](https://raw.githubusercontent.com/lsa1997/images/master/rebuild3d.bmp)  
-可以看到，由于曲线数据较少，球体的边缘有明显的棱角，但由于顶点法向量是取均值得到的，所以面片之间的过渡还比较自然。如果要得到更为圆润的模型，还需要进一步的优化。
+##初步结果：
+以球体计算，给定7条曲线。y轴采样点数M=50，x轴采样点数N=50，多项式阶数order=5  
+![rebuild](https://raw.githubusercontent.com/lsa1997/images/master/%E9%87%8D%E5%BB%BA.bmp)  
+
+效果比较不错。  
 ## 5、尚未完成的工作 ##
 (1)、了解院方眼球彩超拍摄原理，将彩超2维数据转为三维坐标；  
 (2)、通过按键改变采样点数；  
 (3)、渲染模型的纹理信息；  
-(4)、对于彩超图像数目过少时的处理。  
